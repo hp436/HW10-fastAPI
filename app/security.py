@@ -1,8 +1,8 @@
 from passlib.context import CryptContext
 
-# Use bcrypt_sha256 to avoid bcrypt backend issues in CI
+# Use argon2 to avoid all bcrypt backend issues in GitHub Actions
 pwd_context = CryptContext(
-    schemes=["bcrypt_sha256"],
+    schemes=["argon2"],
     deprecated="auto"
 )
 
