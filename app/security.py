@@ -1,15 +1,13 @@
 from passlib.context import CryptContext
 
-# Force bcrypt to use portable backend (fixes GitHub Actions failure)
+# Use bcrypt_sha256 to avoid bcrypt backend issues in CI
 pwd_context = CryptContext(
-    schemes=["bcrypt"],
-    deprecated="auto",
-    bcrypt__ident="2b"   # stable and works in Linux runners
+    schemes=["bcrypt_sha256"],
+    deprecated="auto"
 )
 
 def hash_password(password: str) -> str:
-    # bcrypt max input is 72 bytes; Passlib handles trimming safely
     return pwd_context.hash(password)
 
-def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+def verify_password(plain_password: str, hashed: str) -> bool:
+    return pwd_context.verify(plain_password, hashed)
